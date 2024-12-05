@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipação de App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: none;
+            height: 100%;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .btn, .back-btn {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn:hover, .back-btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn:focus, .back-btn:focus {
+            outline: none;
+        }
+
+        .back-btn {
+            background-color: #f44336;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background-color: #e53935;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category-item {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            text-align: center;
+            width: 140px;
+        }
+
+        .category-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .profile-card, .chat-box, .rating {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-card img {
+            max-width: 200px;
+            border-radius: 50%;
+        }
+
+        .profile-card .project-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .chat-box textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+            height: 150px;
+        }
+
+        .rating select {
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+            font-size: 16px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #444;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .container > * {
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Tela 1: Busca de serviços -->
+    <div id="tela1" class="container active">
+        <button class="back-btn" onclick="goBack()">Voltar</button>
+        <h2>Busca de Serviços</h2>
+        <input type="text" class="search-bar" id="searchInput" oninput="filterCategories()" placeholder="Digite o serviço desejado...">
+        <div id="categoryList" class="category-list">
+            <!-- Categorias serão inseridas aqui dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Tela 2: Detalhes do Perfil do Prestador -->
+    <div id="tela2" class="container">
+        <button class="back-btn" onclick="goBack()">Voltar</button>
+        <h2>Detalhes do Prestador</h2>
+        <div class="profile-card">
+            <img src="https://picsum.photos/200/200" alt="Foto do Prestador">
+            <h3 style="padding: 10px;">João das tantas</h3>
+            <p style="padding: 10px;">Pedreiro com 10 anos de profissão, capaz de chapiscar qualquer tipo de parede</p>
+            <h4 style="padding: 10px;">Projetos Realizados:</h4>
+            <img class="project-img" src="https://picsum.photos/300/300" alt="Projeto 1">
+            <img class="project-img" src="https://picsum.photos/300/300" alt="Projeto 2">
+            <img class="project-img" src="https://picsum.photos/300/300" alt="Projeto 3">
+        </div>
+        <button class="btn" onclick="nextScreen(3)">Iniciar Chat</button>
+    </div>
+
+    <!-- Tela 3: Chat entre Prestador e Cliente -->
+    <div id="tela3" class="container">
+        <button class="back-btn" onclick="goBack()">Voltar</button>
+        <h2>Chat</h2>
+        <div class="chat-box">
+            <p><strong>Prestador:</strong> Como posso ajudar?</p>
+            <textarea placeholder="Digite sua mensagem..."></textarea>
+        </div>
+        <button class="btn" onclick="nextScreen(4)">Registrar Perfil</button>
+    </div>
+
+    <!-- Tela 4: Cadastro de Perfil do Prestador -->
+    <div id="tela4" class="container">
+        <button class="back-btn" onclick="goBack()">Voltar</button>
+        <h2>Cadastro de Perfil</h2>
+        <input type="text" class="search-bar" placeholder="Nome do Prestador">
+        <input type="text" class="search-bar" placeholder="Descrição do Serviço">
+        <button class="btn" onclick="nextScreen(5)">Avaliar Serviço</button>
+    </div>
+
+    <!-- Tela 5: Avaliação após Serviço -->
+    <div id="tela5" class="container">
+        <button class="back-btn" onclick="goBack()">Voltar</button>
+        <h2>Avaliação do Serviço</h2>
+        <div class="rating">
+            <label for="rating">Avalie o serviço:</label>
+            <select id="rating">
+                <option value="1">1 Estrela</option>
+                <option value="2">2 Estrelas</option>
+                <option value="3">3 Estrelas</option>
+                <option value="4">4 Estrelas</option>
+                <option value="5">5 Estrelas</option>
+            </select>
+        </div>
+        <button class="btn" onclick="alert('Avaliação Enviada!')">Enviar Avaliação</button>
+    </div>
+
+    <script>
+        let historyStack = [];
+        const categories = [
+            "Pedreiro", "Eletricista", "Encanador", "Designer de Interiores", "Jardineiro", "Motorista", "Babá", "Acompanhante"
+        ];
+
+        function nextScreen(screenNumber) {
+            // Esconde todas as telas
+            const screens = document.querySelectorAll('.container');
+            screens.forEach(screen => screen.classList.remove('active'));
+            
+            // Mostra a próxima tela
+            const nextScreen = document.getElementById('tela' + screenNumber);
+            nextScreen.classList.add('active');
+
+            // Armazena a tela anterior no histórico
+            historyStack.push(screenNumber - 1);
+        }
+
+        function goBack() {
+            if (historyStack.length > 0) {
+                // Esconde a tela atual
+                const currentScreen = document.querySelector('.active');
+                currentScreen.classList.remove('active');
+
+                // Mostra a tela anterior
+                const previousScreen = document.getElementById('tela' + historyStack.pop());
+                previousScreen.classList.add('active');
+            }
+        }
+
+        function filterCategories() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredCategories = categories.filter(category => category.toLowerCase().includes(searchInput));
+            displayCategories(filteredCategories);
+        }
+
+        function displayCategories(categories) {
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = ''; // Limpa a lista de categorias
+            categories.forEach(category => {
+                const categoryItem = document.createElement('div');
+                categoryItem.classList.add('category-item');
+                categoryItem.textContent = category;
+                categoryItem.onclick = () => showPrestadorPage();
+                categoryList.appendChild(categoryItem);
+            });
+        }
+
+        function showPrestadorPage() {
+            nextScreen(2); // Leva para a tela de detalhes do prestador
+        }
+
+        // Inicializa com todas as categorias
+        displayCategories(categories);
+    </script>
+
+</body>
+</html>
